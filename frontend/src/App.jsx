@@ -1,122 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+/**
+ * App.jsx
+ * -------
+ * Root component of the application.
+ *
+ * Routing strategy:
+ *   We use the URL hash (#) to track which page is active.
+ *   Hash routing requires no server configuration — the browser handles it
+ *   entirely on the client side, so a page refresh always returns to the
+ *   correct page rather than resetting to Home.
+ *
+ *   URL examples:
+ *     http://localhost:5173/        → Home page  (hash is empty or "#home")
+ *     http://localhost:5173/#table  → Table page
+ *     http://localhost:5173/#chart  → Chart page
+ *
+ * How it works:
+ *   1. On mount, we read window.location.hash to set the initial page.
+ *   2. When the user navigates, we update window.location.hash.
+ *   3. We listen to the 'hashchange' event so the Back/Forward browser
+ *      buttons also work correctly.
+ */
 
-function App() {
-  const [count, setCount] = useState(0)
+import React, { useState, useEffect } from "react";
+import Navbar    from "./components/Navbar.jsx";
+import HomePage  from "./pages/HomePage.jsx";
+import TablePage from "./pages/TablePage.jsx";
+import ChartPage from "./pages/ChartPage.jsx";
+
+// Valid page identifiers — must match the hash values used in the URL
+const VALID_PAGES = ["home", "table", "chart"];
+
+/**
+ * Read the current page from the URL hash.
+ * Returns "home" as the default if the hash is empty or unrecognised.
+ */
+function getPageFromHash() {
+  // window.location.hash is "#table" → strip the leading "#"
+  const hash = window.location.hash.replace("#", "");
+  return VALID_PAGES.includes(hash) ? hash : "home";
+}
+
+export default function App() {
+  // Initialise state from the URL hash so a refresh lands on the same page
+  const [page, setPage] = useState(getPageFromHash);
+
+  // ── Sync URL hash with page state ──────────────────────────────────────────
+  // Whenever `page` changes (user clicks a nav link), update the hash.
+  useEffect(() => {
+    window.location.hash = page;
+  }, [page]);
+
+  // ── Listen for browser Back / Forward navigation ───────────────────────────
+  // The 'hashchange' event fires when the user presses Back or Forward.
+  // We read the new hash and update the React state accordingly.
+  useEffect(() => {
+    function onHashChange() {
+      setPage(getPageFromHash());
+    }
+    window.addEventListener("hashchange", onHashChange);
+    // Clean up the event listener when the component unmounts
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  // ── Render the active page ──────────────────────────────────────────────────
+  function renderPage() {
+    if (page === "table") return <TablePage />;
+    if (page === "chart") return <ChartPage />;
+    // Default — render the Home page
+    return <HomePage onNavigate={setPage} />;
+  }
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      {/* Sticky navigation bar — always visible at the top */}
+      <Navbar activePage={page} onNavigate={setPage} />
+      <main>{renderPage()}</main>
     </>
-  )
+  );
 }
-
-export default App

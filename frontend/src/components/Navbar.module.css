@@ -1,0 +1,52 @@
+/* ── Navbar container ─────────────────────────────────────────────────────── */
+.nav {
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 32px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Stick to top so it stays visible while the user scrolls */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Brand / logo text */
+.brand {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2d3748;
+  letter-spacing: -0.01em;
+}
+
+/* Container for the nav buttons */
+.links { display: flex; gap: 4px; }
+
+/* Inactive nav button */
+.link {
+  padding: 6px 16px;
+  border: none;
+  background: transparent;
+  color: #718096;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.link:hover { background: #f0f4f8; color: #2d3748; }
+
+/* Active nav button — highlighted to show current page */
+.linkActive {
+  padding: 6px 16px;
+  border: none;
+  background: #ebf8ff;
+  color: #2b6cb0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+}

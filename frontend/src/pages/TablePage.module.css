@@ -1,0 +1,130 @@
+/* ── Page layout ─────────────────────────────────────────────────────────── */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Status / error (full page) ─────────────────────────────────────────── */
+.status    { text-align: center; padding: 80px; color: #a0aec0; font-size: 1.1rem; }
+.errorPage { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; border-radius: 8px; padding: 24px; margin: 40px; }
+.errorBanner { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; border-radius: 8px; padding: 12px 16px; font-size: 0.9rem; }
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.header h1 { font-size: 1.6rem; font-weight: 700; color: #2d3748; }
+.sub { color: #718096; font-size: 0.9rem; margin-top: 4px; }
+
+/* ── Controls row ────────────────────────────────────────────────────────── */
+.controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Year selector */
+.yearSelector { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.yearLabel { font-size: 0.9rem; font-weight: 600; color: #4a5568; white-space: nowrap; }
+.yearSelect {
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #fff;
+  color: #2d3748;
+  cursor: pointer;
+  outline: none;
+}
+.yearSelect:focus { border-color: #4299e1; }
+
+/* Search input — grows to fill remaining space */
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+  padding: 9px 16px;
+  font-size: 0.95rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+  transition: border 0.2s;
+}
+.searchInput:focus { border-color: #4299e1; }
+
+/* ── Table wrapper ───────────────────────────────────────────────────────── */
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+/* ── Table headers ───────────────────────────────────────────────────────── */
+.th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #4a5568;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #f7fafc;
+  border-bottom: 2px solid #e2e8f0;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.th:hover { background: #edf2f7; }
+
+/* Sort icons */
+.sortIcon       { color: #cbd5e0; margin-left: 4px; font-size: 0.85rem; }
+.sortIconActive { color: #4299e1; margin-left: 4px; font-size: 0.85rem; font-weight: 700; }
+
+/* ── Table cells ─────────────────────────────────────────────────────────── */
+.td       { padding: 10px 16px; font-size: 0.9rem; color: #2d3748; border-bottom: 1px solid #f0f4f8; }
+.tdCenter { padding: 10px 16px; font-size: 0.9rem; color: #2d3748; border-bottom: 1px solid #f0f4f8; text-align: center; }
+.tdRight  { padding: 10px 16px; font-size: 0.9rem; color: #2d3748; border-bottom: 1px solid #f0f4f8; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Alternating row colours */
+.rowEven { background: #fff; }
+.rowOdd  { background: #f9fafb; }
+.rowEven:hover, .rowOdd:hover { background: #ebf8ff; transition: background 0.1s; }
+
+/* Gender badges */
+.tagMale   { background: #bee3f8; color: #2b6cb0; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+.tagFemale { background: #fed7e2; color: #97266d; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+
+/* Special rows */
+.loadingRow { text-align: center; padding: 40px; color: #a0aec0; }
+.noData     { text-align: center; padding: 40px; color: #a0aec0; }
+
+/* ── Pagination ───────────────────────────────────────────────────────────── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pageBtn {
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #4a5568;
+  transition: all 0.15s;
+}
+.pageBtn:hover:not(:disabled) { background: #4299e1; color: #fff; border-color: #4299e1; }
+.pageBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.pageInfo { font-size: 0.9rem; color: #718096; padding: 0 8px; }
